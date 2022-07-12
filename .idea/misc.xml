@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="app/src/main/res/drawable-v24/round_background_theme_1000.xml" value="0.15" />
+        <entry key="app/src/main/res/drawable/add_icon.xml" value="0.2615" />
+        <entry key="app/src/main/res/drawable/back_icon.xml" value="0.242" />
+        <entry key="app/src/main/res/drawable/custom_overflow_button.xml" value="0.2615" />
+        <entry key="app/src/main/res/drawable/delete.xml" value="0.1655" />
+        <entry key="app/src/main/res/drawable/go_icon.xml" value="0.219" />
+        <entry key="app/src/main/res/drawable/ic_baseline_add_a_photo_24.xml" value="0.2615" />
+        <entry key="app/src/main/res/drawable/insert_photo.xml" value="0.2235" />
+        <entry key="app/src/main/res/drawable/name_icon.xml" value="0.2235" />
+        <entry key="app/src/main/res/drawable/overflow_menu.xml" value="0.2615" />
+        <entry key="app/src/main/res/drawable/pause.xml" value="0.2085" />
+        <entry key="app/src/main/res/drawable/phone_icon.xml" value="0.2235" />
+        <entry key="app/src/main/res/drawable/play.xml" value="0.1655" />
+        <entry key="app/src/main/res/drawable/progress_bg.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/progress_bg_2.xml" value="0.2235" />
+        <entry key="app/src/main/res/drawable/progress_bg_3.xml" value="0.2235" />
+        <entry key="app/src/main/res/drawable/receive_drawable.xml" value="0.22" />
+        <entry key="app/src/main/res/drawable/round_background_green_1000.xml" value="0.259" />
+        <entry key="app/src/main/res/drawable/search_icon.xml" value="0.15" />
+        <entry key="app/src/main/res/drawable/search_icon_2.xml" value="0.1565" />
+        <entry key="app/src/main/res/drawable/send_icon.xml" value="0.15" />
+        <entry key="app/src/main/res/drawable/sent_drawable.xml" value="0.1565" />
+        <entry key="app/src/main/res/drawable/share_play.xml" value="0.1655" />
+        <entry key="app/src/main/res/drawable/stop.xml" value="0.2085" />
+        <entry key="app/src/main/res/layout/activity_chat.xml" value="0.35353535353535354" />
+        <entry key="app/src/main/res/layout/activity_chat_list.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.33605072463768115" />
+        <entry key="app/src/main/res/layout/activity_otp.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/activity_setup_user_profile.xml" value="0.33605072463768115" />
+        <entry key="app/src/main/res/layout/activity_sign_up.xml" value="0.33605072463768115" />
+        <entry key="app/src/main/res/layout/activity_yt.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/chat_list_item.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/chat_list_item_layout.xml" value="0.29483695652173914" />
+        <entry key="app/src/main/res/layout/fragment_chat_list.xml" value="0.29483695652173914" />
+        <entry key="app/src/main/res/layout/fragment_chat_screen.xml" value="0.17165814463111762" />
+        <entry key="app/src/main/res/layout/fragment_media.xml" value="0.35625" />
+        <entry key="app/src/main/res/layout/fragment_otp_verification.xml" value="0.33605072463768115" />
+        <entry key="app/src/main/res/layout/fragment_phone_number.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/fragment_phone_reg.xml" value="0.29483695652173914" />
+        <entry key="app/src/main/res/layout/fragment_search.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/fragment_setup_user_profile.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/fragment_you_tube.xml" value="0.35625" />
+        <entry key="app/src/main/res/layout/item_receive.xml" value="0.43300653594771243" />
+        <entry key="app/src/main/res/layout/item_recieve.xml" value="0.29483695652173914" />
+        <entry key="app/src/main/res/layout/item_sent.xml" value="0.3665283540802213" />
+        <entry key="app/src/main/res/layout/media_item.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/search_list_item.xml" value="0.29483695652173914" />
+        <entry key="app/src/main/res/menu/chat_menu.xml" value="0.35625" />
+        <entry key="app/src/main/res/menu/menu.xml" value="0.35625" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>

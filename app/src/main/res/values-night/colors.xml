@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="off_white">#E6FFFFFF</color>
+
+    //my defined colors
+    <color name="background_color">#4D00BCD4</color>
+    <color name="gray">#DDDDDD</color>
+    <color name="text_color">#FFFFFF</color>
+    <color name="text_color_light">#F2FFFFFF</color>
+    <color name="text_color_hint">#E6FFFFFF</color>
+    <color name="button_color">#00BCD4</color>
+    <color name="theme_color">#008597</color>
+    <color name="theme_color_dark">#008597</color>
+    <color name="profile_pic_bg_color">#FFFFFF</color>
+    <color name="icon_color">#FFFFFF</color>
+    <color name="offline_indicator">#C12121</color>
+    <color name="online_indicator">#FF057509</color>
+
+
+</resources>

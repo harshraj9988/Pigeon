@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/clear_chat"
+        android:title="Clear chat" />
+    <item
+        android:id="@+id/beta"
+        android:title="βeta" >
+        <menu>
+            <item
+                android:id="@+id/yt"
+                android:title="YouTube" />
+            <item
+                android:id="@+id/media"
+                android:title="Media" />
+        </menu>
+    </item>
+</menu>

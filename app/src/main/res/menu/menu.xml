@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/search_btn"
+        android:icon="@drawable/search_icon"
+        android:title="search"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/my_profile_btn"
+        android:title="My profile" />
+    <item
+        android:id="@+id/groups_btn"
+        android:title="Groups" />
+    <item
+        android:id="@+id/invite_btn"
+        android:title="Invite" />
+    <item
+        android:id="@+id/setting_btn"
+        android:title="Settings">
+        <menu>
+            <item
+                android:id="@+id/remove_me_from_server_btn"
+                android:title="Remove me from the server" />
+        </menu>
+    </item>
+    <item
+        android:id="@+id/sign_out_btn"
+        android:title="Sign out" />
+</menu>
