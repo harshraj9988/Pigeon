@@ -7,7 +7,7 @@
         android:title="Clear chat" />
     <item
         android:id="@+id/beta"
-        android:title="βeta" >
+        android:title="Together play" >
         <menu>
             <item
                 android:id="@+id/yt"

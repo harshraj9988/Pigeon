@@ -284,8 +284,7 @@ class ChatScreenFragment : Fragment() {
                     .child(receiverUid).child("lastMsg")
                     .setValue(messageTxt).addOnCompleteListener {
 
-                        //indicating theres an unseen message
-                        settingUnseenCountForReceiver()
+                       removeUnseenMessage()
 
 
                     }
@@ -320,16 +319,20 @@ class ChatScreenFragment : Fragment() {
                         }
                     }
                     messagesAdapter.submitList(messages)
-                    messagesAdapter.notifyItemInserted(messages.size - 1)
-                    if (messages.size > 1) {
+                    if (messages.size > 0) {
+                        messagesAdapter.notifyItemInserted(messages.size - 1)
                         binding.messageRecyclerView.scrollToPosition(messages.size - 1)
+                    } else{
+                        messagesAdapter.notifyDataSetChanged()
                     }
 
 
                     if (playReceiveTone) {
-                        if (messages[messages.size - 1].senderId == receiverUid) {
-                            vibrateOnMessageReceive()
+                        if(messages.size>0) {
+                            if (messages[messages.size - 1].senderId == receiverUid) {
+                                vibrateOnMessageReceive()
 
+                            }
                         }
                     }
 
@@ -363,7 +366,17 @@ class ChatScreenFragment : Fragment() {
         messages.clear()
         database.reference.child("chats")
             .child(senderRoom).child("messages")
-            .setValue("")
+            .setValue("").addOnSuccessListener {
+                database.reference.child("lastMessages").child(senderUid)
+                    .child(receiverUid).child("lastMsg")
+                    .setValue("").addOnCompleteListener {
+
+                        //indicating theres an unseen message
+                        settingUnseenCountForReceiver()
+
+
+                    }
+            }
 
     }
 
