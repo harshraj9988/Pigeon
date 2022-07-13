@@ -3,13 +3,15 @@ package com.hr9988apps.pigeon.chatscreen
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.os.*
+import android.os.Build
+import android.os.Bundle
+import android.os.VibrationEffect
+import android.os.Vibrator
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
-import androidx.core.content.getSystemService
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -29,6 +31,8 @@ import com.google.firebase.storage.StorageReference
 import com.hr9988apps.pigeon.R
 import com.hr9988apps.pigeon.databinding.FragmentChatScreenBinding
 import com.hr9988apps.pigeon.user.User
+import com.hr9988apps.pigeon.utils.FCM_API
+import com.hr9988apps.pigeon.utils.FCM_KEY
 import com.hr9988apps.pigeon.ytfiles.YtActivity
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.CoroutineScope
@@ -324,7 +328,6 @@ class ChatScreenFragment : Fragment() {
 
                     if (playReceiveTone) {
                         if (messages[messages.size - 1].senderId == receiverUid) {
-                            //TODO: play the notif sound here
                             vibrateOnMessageReceive()
 
                         }
@@ -393,7 +396,7 @@ class ChatScreenFragment : Fragment() {
         try {
             if (context != null && !isReceiverActive) {
                 val requestQueue: RequestQueue = Volley.newRequestQueue(context)
-                val url = "https://fcm.googleapis.com/fcm/send"
+                val url = FCM_API
                 val data = JSONObject()
                 data.put("title", name)
                 data.put("body", message)
@@ -409,8 +412,7 @@ class ChatScreenFragment : Fragment() {
                         @Throws(AuthFailureError::class)
                         override fun getHeaders(): Map<String, String> {
                             val map: HashMap<String, String> = HashMap()
-                            val key =
-                                "Key=AAAARkbhlok:APA91bG2Ys8Cfww5KmmtIXcsa4R--Bqid5Mm5ISS8Z6EkCKw2ZIPCkUTkLqIdFngpDCBKULZ_PZSwXZUEwBqh9gEmQ48nBe5PCs1xFKN_YvzzeXM60fH5AGalPJySVV91Aj9xy7j0G7r"
+                            val key = FCM_KEY
                             map["Content-Type"] = "application/json"
                             map["Authorization"] = key
                             return map
