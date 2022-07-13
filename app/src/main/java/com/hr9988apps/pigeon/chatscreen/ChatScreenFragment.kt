@@ -284,9 +284,8 @@ class ChatScreenFragment : Fragment() {
                     .child(receiverUid).child("lastMsg")
                     .setValue(messageTxt).addOnCompleteListener {
 
-                       removeUnseenMessage()
-
-
+                        //indicating theres an unseen message
+                        settingUnseenCountForReceiver()
                     }
             }
     }
@@ -371,10 +370,7 @@ class ChatScreenFragment : Fragment() {
                     .child(receiverUid).child("lastMsg")
                     .setValue("").addOnCompleteListener {
 
-                        //indicating theres an unseen message
-                        settingUnseenCountForReceiver()
-
-
+                        removeUnseenMessage()
                     }
             }
 

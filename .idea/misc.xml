@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.219" />
         <entry key="app/src/main/res/drawable-v24/round_background_theme_1000.xml" value="0.15" />
         <entry key="app/src/main/res/drawable/add_icon.xml" value="0.2615" />
         <entry key="app/src/main/res/drawable/back_icon.xml" value="0.242" />
@@ -10,6 +11,7 @@
         <entry key="app/src/main/res/drawable/delete.xml" value="0.1655" />
         <entry key="app/src/main/res/drawable/go_icon.xml" value="0.219" />
         <entry key="app/src/main/res/drawable/ic_baseline_add_a_photo_24.xml" value="0.2615" />
+        <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.219" />
         <entry key="app/src/main/res/drawable/insert_photo.xml" value="0.2235" />
         <entry key="app/src/main/res/drawable/name_icon.xml" value="0.2235" />
         <entry key="app/src/main/res/drawable/overflow_menu.xml" value="0.2615" />
@@ -52,6 +54,8 @@
         <entry key="app/src/main/res/layout/search_list_item.xml" value="0.29483695652173914" />
         <entry key="app/src/main/res/menu/chat_menu.xml" value="0.35625" />
         <entry key="app/src/main/res/menu/menu.xml" value="0.35625" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.219" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.219" />
       </map>
     </option>
   </component>
