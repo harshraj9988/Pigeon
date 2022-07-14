@@ -2,6 +2,8 @@ package com.hr9988apps.pigeon.ytfiles
 
 import android.content.Intent
 import android.content.pm.ActivityInfo
+import android.content.pm.ApplicationInfo
+import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.os.Bundle
 import android.view.View
@@ -18,7 +20,6 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.hr9988apps.pigeon.R
 import com.hr9988apps.pigeon.databinding.ActivityYtBinding
-import com.hr9988apps.pigeon.utils.API_KEY
 
 class YtActivity : YouTubeBaseActivity(), YouTubePlayer.OnInitializedListener,
     YouTubePlayer.OnFullscreenListener, YouTubePlayer.PlaybackEventListener,
@@ -257,7 +258,12 @@ class YtActivity : YouTubeBaseActivity(), YouTubePlayer.OnInitializedListener,
                         val id = snapshot.getValue(String::class.java)
                         if (!id.isNullOrEmpty()) {
                             videoId = id
-                            youtubePlayer.initialize(API_KEY, initializedListener)
+                            if(applicationContext!=null){
+                                val ai: ApplicationInfo = applicationContext!!.packageManager.getApplicationInfo(applicationContext!!.packageName, PackageManager.GET_META_DATA)
+                                val key = ai.metaData["gcp_api"]
+                                youtubePlayer.initialize(key.toString(), initializedListener)
+                            }
+
 
                         } else {
                             releasePlayer()
@@ -271,6 +277,10 @@ class YtActivity : YouTubeBaseActivity(), YouTubePlayer.OnInitializedListener,
 
             })
     }
+
+
+
+
 
     private fun updatePlaybackState(isPlaying: String) {
 

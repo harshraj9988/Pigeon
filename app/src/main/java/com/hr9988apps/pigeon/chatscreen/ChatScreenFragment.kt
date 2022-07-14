@@ -2,6 +2,8 @@ package com.hr9988apps.pigeon.chatscreen
 
 import android.content.Context
 import android.content.Intent
+import android.content.pm.ApplicationInfo
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -31,8 +33,6 @@ import com.google.firebase.storage.StorageReference
 import com.hr9988apps.pigeon.R
 import com.hr9988apps.pigeon.databinding.FragmentChatScreenBinding
 import com.hr9988apps.pigeon.user.User
-import com.hr9988apps.pigeon.utils.FCM_API
-import com.hr9988apps.pigeon.utils.FCM_KEY
 import com.hr9988apps.pigeon.ytfiles.YtActivity
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.CoroutineScope
@@ -220,7 +220,7 @@ class ChatScreenFragment : Fragment() {
                                                     addToReceiverContact()
                                                     //sending notification
                                                     if (senderName.isNotEmpty()) {
-                                                        if(!receiverToken.isNullOrEmpty()){
+                                                        if (!receiverToken.isNullOrEmpty()) {
                                                             sendNotification(
                                                                 senderName,
                                                                 "photo",
@@ -254,8 +254,8 @@ class ChatScreenFragment : Fragment() {
                 }, 100)
             }
         }
-    }
 
+    }
 
 
     override fun onResume() {
@@ -321,13 +321,13 @@ class ChatScreenFragment : Fragment() {
                     if (messages.size > 0) {
                         messagesAdapter.notifyItemInserted(messages.size - 1)
                         binding.messageRecyclerView.scrollToPosition(messages.size - 1)
-                    } else{
+                    } else {
                         messagesAdapter.notifyDataSetChanged()
                     }
 
 
                     if (playReceiveTone) {
-                        if(messages.size>0) {
+                        if (messages.size > 0) {
                             if (messages[messages.size - 1].senderId == receiverUid) {
                                 vibrateOnMessageReceive()
 
@@ -405,7 +405,7 @@ class ChatScreenFragment : Fragment() {
         try {
             if (context != null && !isReceiverActive) {
                 val requestQueue: RequestQueue = Volley.newRequestQueue(context)
-                val url = FCM_API
+                val url = "https://fcm.googleapis.com/fcm/send"
                 val data = JSONObject()
                 data.put("title", name)
                 data.put("body", message)
@@ -421,9 +421,18 @@ class ChatScreenFragment : Fragment() {
                         @Throws(AuthFailureError::class)
                         override fun getHeaders(): Map<String, String> {
                             val map: HashMap<String, String> = HashMap()
-                            val key = FCM_KEY
+
+
+
+                            val ai: ApplicationInfo = context!!.packageManager.getApplicationInfo(
+                                context!!.packageName,
+                                PackageManager.GET_META_DATA
+                            )
+                            val key = ai.metaData["fcm_api"]
+
+
                             map["Content-Type"] = "application/json"
-                            map["Authorization"] = key
+                            map["Authorization"] = key.toString()
                             return map
                         }
                     }
@@ -513,7 +522,7 @@ class ChatScreenFragment : Fragment() {
         return false
     }
 
-    private fun addToReceiverContact(){
+    private fun addToReceiverContact() {
         database.reference
             .child("contacts")
             .child(receiverUid)

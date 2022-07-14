@@ -53,6 +53,14 @@
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/theme_color" />
 
+        <meta-data
+            android:name="gcp_api"
+            android:value="${API_KEY}" />
+
+        <meta-data
+            android:name="fcm_api"
+            android:value="${FCM_KEY}" />
+
         <service
             android:name=".utils.MyFirebaseService"
             android:exported="false">
@@ -60,6 +68,7 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
     </application>
 
 </manifest>
