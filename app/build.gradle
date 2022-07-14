@@ -4,6 +4,7 @@ plugins {
     id 'com.google.gms.google-services'
     id 'kotlin-kapt'
     id 'androidx.navigation.safeargs'
+    id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
 }
 
 
@@ -14,8 +15,8 @@ android {
         applicationId "com.hr9988apps.pigeon"
         minSdk 21
         targetSdk 32
-        versionCode 5
-        versionName "1.011"
+        versionCode 6
+        versionName "1.012"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
