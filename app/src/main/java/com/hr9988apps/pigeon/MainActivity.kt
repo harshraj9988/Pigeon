@@ -6,6 +6,8 @@ import androidx.databinding.adapters.NumberPickerBindingAdapter.setValue
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 
+/****************** Download your google-services.json from the firebase **************************/
+
 class MainActivity : AppCompatActivity() {
 
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()

@@ -258,6 +258,8 @@ class YtActivity : YouTubeBaseActivity(), YouTubePlayer.OnInitializedListener,
                         val id = snapshot.getValue(String::class.java)
                         if (!id.isNullOrEmpty()) {
                             videoId = id
+
+                            /*************** get the android api key from the GCP credentials ********/
                             if(applicationContext!=null){
                                 val ai: ApplicationInfo = applicationContext!!.packageManager.getApplicationInfo(applicationContext!!.packageName, PackageManager.GET_META_DATA)
                                 val key = ai.metaData["gcp_api"]

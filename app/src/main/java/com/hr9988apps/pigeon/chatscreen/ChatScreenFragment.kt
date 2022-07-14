@@ -423,7 +423,7 @@ class ChatScreenFragment : Fragment() {
                             val map: HashMap<String, String> = HashMap()
 
 
-
+                        /********** get the FCM api key from the firebase *********************/
                             val ai: ApplicationInfo = context!!.packageManager.getApplicationInfo(
                                 context!!.packageName,
                                 PackageManager.GET_META_DATA
