@@ -44,9 +44,7 @@ class SearchFragment : Fragment() {
         ActivityResultContracts.RequestPermission()
     ) { isGranted ->
         if (isGranted) {
-            scope.launch {
-                retrieveUserContactsFromDevice()
-            }
+            loadContactsInBackground()
         } else {
             if (showDialog) {
                 if (activity != null) {
@@ -123,13 +121,13 @@ class SearchFragment : Fragment() {
 
 
 
-        try{
+        try {
             if (activity != null) {
                 val sharedPref = activity!!.getPreferences(Context.MODE_PRIVATE)
                 showDialog =
                     sharedPref.getBoolean("showDialog", true)
             }
-        }catch (e : Exception){
+        } catch (e: Exception) {
             showDialog = true
         }
 
@@ -176,6 +174,7 @@ class SearchFragment : Fragment() {
 
 
         }
+        showLoading(false)
 
 
     }
@@ -317,6 +316,7 @@ class SearchFragment : Fragment() {
                 searchListAdapter.submitList(usersInContact)
                 searchListAdapter.notifyDataSetChanged()
 
+
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -334,9 +334,7 @@ class SearchFragment : Fragment() {
                     context!!,
                     Manifest.permission.READ_CONTACTS
                 ) == PackageManager.PERMISSION_GRANTED -> {
-                    scope.launch {
-                        retrieveUserContactsFromDevice()
-                    }
+                    loadContactsInBackground()
                 }
                 ActivityCompat.shouldShowRequestPermissionRationale(
                     activity!!,
@@ -360,4 +358,27 @@ class SearchFragment : Fragment() {
             }
         }
     }
+
+    private fun loadContactsInBackground() {
+
+        if(context!=null){
+            Toast.makeText(context, "Please wait for contacts to load", Toast.LENGTH_SHORT).show()
+        }
+
+        scope.launch {
+            retrieveUserContactsFromDevice()
+        }
+    }
+
+
+    private fun showLoading(bool: Boolean) {
+        if (bool) {
+            binding.loading.visibility = View.VISIBLE
+            binding.searchRecyclerView.visibility = View.GONE
+        } else {
+            binding.loading.visibility = View.GONE
+            binding.searchRecyclerView.visibility = View.VISIBLE
+        }
+    }
+
 }
