@@ -36,6 +36,8 @@
         <entry key="app/src/main/res/layout/activity_setup_user_profile.xml" value="0.33605072463768115" />
         <entry key="app/src/main/res/layout/activity_sign_up.xml" value="0.33605072463768115" />
         <entry key="app/src/main/res/layout/activity_yt.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/alert_dialog_neg_layout.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/alert_dialog_perm_layout.xml" value="0.29157759726378796" />
         <entry key="app/src/main/res/layout/chat_list_item.xml" value="0.25" />
         <entry key="app/src/main/res/layout/chat_list_item_layout.xml" value="0.29483695652173914" />
         <entry key="app/src/main/res/layout/fragment_chat_list.xml" value="0.29483695652173914" />
