@@ -306,10 +306,12 @@ class SearchFragment : Fragment() {
                 snapshot.children.forEach {
                     val user = it.getValue(User::class.java)
                     if (user != null) {
-                        usersPhoneDataBase[user.phoneNumber] = user
-                        if (contacts.contains(user.phoneNumber)) {
-                            usersInContact.add(user)
-                            usersNameDataBase[user.name.lowercase()] = user
+                        if (user.phoneNumber != (auth.currentUser?.phoneNumber ?: "")) {
+                            usersPhoneDataBase[user.phoneNumber] = user
+                            if (contacts.contains(user.phoneNumber)) {
+                                usersInContact.add(user)
+                                usersNameDataBase[user.name.lowercase()] = user
+                            }
                         }
                     }
                 }
@@ -361,7 +363,7 @@ class SearchFragment : Fragment() {
 
     private fun loadContactsInBackground() {
 
-        if(context!=null){
+        if (context != null) {
             Toast.makeText(context, "Please wait for contacts to load", Toast.LENGTH_SHORT).show()
         }
 
