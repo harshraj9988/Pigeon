@@ -96,8 +96,6 @@ class ChatScreenFragment : Fragment() {
 
         messagesAdapter = MessagesAdapter()
 
-        messagesAdapter.setHasStableIds(true)
-
         binding.messageRecyclerView.adapter = messagesAdapter
 
         args = ChatScreenFragmentArgs.fromBundle(requireArguments())

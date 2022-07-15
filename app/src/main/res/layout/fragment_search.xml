@@ -78,7 +78,7 @@
             android:layout_height="0dp"
             android:orientation="vertical"
             android:padding="5dp"
-            android:visibility="invisible"
+            android:visibility="visible"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -100,7 +100,7 @@
             android:indeterminate="true"
             android:indeterminateDrawable="@drawable/progress_bg"
             android:progress="0"
-            android:visibility="visible" />
+            android:visibility="gone" />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView2"

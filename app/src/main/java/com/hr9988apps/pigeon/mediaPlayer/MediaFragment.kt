@@ -94,8 +94,6 @@ class MediaFragment : Fragment() {
         mediaAdapter = MediaAdapter(senderRoom, receiverRoom)
         binding.mediaRecyclerView.adapter = mediaAdapter
 
-
-
         binding.backBtn.setOnClickListener {
             Navigation.findNavController(it).navigate(
                 MediaFragmentDirections.actionMediaFragmentToChatScreenFragment2(

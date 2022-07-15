@@ -1,0 +1,23 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="start"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Require access to contacts"
+        android:textColor="@color/text_color"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/click"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Contacts are required to find friends on Pigeon.\n\n(your contacts will not be uploaded to the server)"
+        android:textColor="@color/text_color" />
+</LinearLayout>
