@@ -58,7 +58,10 @@ class SentViewHolder private constructor(val binding: ItemSentBinding) :
         binding.sent.text = item.message
         if (item.message == "photo") {
             binding.sentImage.visibility = View.VISIBLE
-            Picasso.get().load(item.imageUrl).placeholder(R.drawable.progress_bg_3).into(binding.sentImage)
+            Picasso.get().load(item.imageUrl).placeholder(R.drawable.progress_bg_3)
+                .fit()
+                .centerInside()
+                .into(binding.sentImage)
         } else {
             binding.sentImage.visibility = View.GONE
         }
@@ -81,7 +84,10 @@ class ReceiveViewHolder private constructor(val binding: ItemReceiveBinding) :
     ) {
         binding.receive.text = item.message
         if (item.message == "photo") {
-            Picasso.get().load(item.imageUrl).placeholder(R.drawable.progress_bg_3).into(binding.receivedImage)
+            Picasso.get().load(item.imageUrl).placeholder(R.drawable.progress_bg_3)
+                .fit()
+                .centerInside()
+                .into(binding.receivedImage)
             binding.receivedImage.visibility = View.VISIBLE
         } else {
             binding.receivedImage.visibility = View.GONE

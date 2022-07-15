@@ -96,6 +96,8 @@ class ChatListFragment : Fragment() {
             }
         ))
 
+        chatListAdapter.setHasStableIds(true)
+
         binding.recyclerView.adapter = chatListAdapter
 
 

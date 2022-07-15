@@ -1,10 +1,14 @@
 package com.hr9988apps.pigeon.search
 
+import android.database.Cursor
 import android.os.Bundle
+import android.provider.ContactsContract
 import android.text.InputType
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -17,6 +21,10 @@ import com.google.firebase.database.ValueEventListener
 import com.hr9988apps.pigeon.R
 import com.hr9988apps.pigeon.databinding.FragmentSearchBinding
 import com.hr9988apps.pigeon.user.User
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
 class SearchFragment : Fragment() {
 
@@ -34,6 +42,12 @@ class SearchFragment : Fragment() {
 
     private var searchSwitch: Boolean = true
 
+    private val contacts: HashSet<String> = HashSet()
+
+    private val usersInContact: ArrayList<User> = ArrayList()
+
+    private val job = Job()
+    private val scope = CoroutineScope(Dispatchers.Main + job)
     /*********************************************************************************************/
 
     private lateinit var viewModel: SearchViewModel
@@ -50,17 +64,18 @@ class SearchFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this)[SearchViewModel::class.java]
 
-
-
         searchListAdapter = SearchListAdapter(SearchListListener { name, profileImage, uid, token ->
-            binding.loading.visibility = View.VISIBLE
-            binding.searchRecyclerView.visibility = View.INVISIBLE
             addToContact(name, profileImage, uid, token)
         })
 
+        scope.launch {
+            retrieveUserContactsFromDevice()
+        }
+
+        searchListAdapter.setHasStableIds(true)
+
         binding.searchRecyclerView.adapter = searchListAdapter
 
-        getUsersDatabase()
 
         binding.backBtn.setOnClickListener {
             Navigation.findNavController(it)
@@ -68,13 +83,18 @@ class SearchFragment : Fragment() {
         }
 
         binding.search.setOnClickListener {
-
+            val phoneNo: String = binding.phoneNumber.text.toString()
             if (searchSwitch) {
-                val phoneNumber = "${binding.countryCode.text}${binding.phoneNumber.text}"
+                if(phoneNo.length<10){
+                    binding.phoneNumber.error = "Invalid phone number"
+                    searchListAdapter.submitList(usersInContact)
+                    searchListAdapter.notifyDataSetChanged()
+                    return@setOnClickListener
+                }
+                val phoneNumber = "${binding.countryCode.text}${phoneNo}"
                 searchUser(phoneNumber, usersPhoneDataBase)
             } else {
-                val name = "${binding.phoneNumber.text}"
-                searchUser(name.lowercase(), usersNameDataBase)
+                searchUser(phoneNo.lowercase(), usersNameDataBase)
             }
         }
 
@@ -82,11 +102,13 @@ class SearchFragment : Fragment() {
 
             searchSwitch = !searchSwitch
             if (!searchSwitch) {
+                binding.phoneNumber.setText("")
                 binding.switchBtn.setImageResource(R.drawable.phone_icon)
                 binding.phoneNumber.hint = "Search name"
                 binding.phoneNumber.inputType = InputType.TYPE_CLASS_TEXT
                 binding.countryCode.visibility = View.INVISIBLE
             } else {
+                binding.phoneNumber.setText("")
                 binding.switchBtn.setImageResource(R.drawable.name_icon)
                 binding.phoneNumber.hint = "Search phone number"
                 binding.phoneNumber.inputType = InputType.TYPE_CLASS_PHONE
@@ -95,12 +117,21 @@ class SearchFragment : Fragment() {
 
 
         }
+
+
+    }
+
+    override fun onDetach() {
+        job.cancel()
+        super.onDetach()
     }
 
     private fun searchUser(searchedTerm: String, dataset: HashMap<String, User>) {
 
         if(binding.phoneNumber.text.isEmpty()){
             binding.phoneNumber.error = "Nothing to search!"
+            searchListAdapter.submitList(usersInContact)
+            searchListAdapter.notifyDataSetChanged()
             return
         }
 
@@ -113,8 +144,16 @@ class SearchFragment : Fragment() {
                 }
             }
         }
-        searchListAdapter.submitList(searchResults)
-        searchListAdapter.notifyDataSetChanged()
+        if(searchResults.size<1){
+            searchListAdapter.submitList(usersInContact)
+            searchListAdapter.notifyDataSetChanged()
+            if(context!=null){
+                Toast.makeText(context, "Not Found", Toast.LENGTH_SHORT).show()
+            }
+        }else {
+            searchListAdapter.submitList(searchResults)
+            searchListAdapter.notifyDataSetChanged()
+        }
     }
 
     private fun addToContact(name: String, profileImage: String, uid: String, token: String?) {
@@ -140,29 +179,91 @@ class SearchFragment : Fragment() {
         }
     }
 
-    private fun getUsersDatabase() {
+    private fun retrieveUserContactsFromDevice(){
+        var cursor: Cursor? = null
+        if(context!=null){
+            val contentResolver = context!!.contentResolver
+            if(contentResolver!=null){
+                try{
+                    cursor = contentResolver.query(
+                        ContactsContract.Contacts.CONTENT_URI,
+                        null,
+                        null,
+                        null,
+                        null
+                    )
+                } catch (e: Exception){
+                    e.localizedMessage?.let { Log.e("Error on contacts: ", it) }
+                }
+                if(cursor!=null){
+                    if(cursor.count>0){
+                        while(cursor.moveToNext()){
+                            val hasPhoneNumber: Int = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER)).toInt()
+                            if(hasPhoneNumber>0){
+                                val phoneCursor: Cursor? = contentResolver.query(
+                                    ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+                                    null,
+                                    null,
+                                    null,
+                                    null
+                                )
+
+                                if(phoneCursor!=null){
+                                    while(phoneCursor.moveToNext()){
+                                        val rawPhone = phoneCursor.getString(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))
+                                        val phoneParts = rawPhone.split(' ')
+                                        val sb: StringBuilder = StringBuilder()
+                                        var i = if(phoneParts.size>2) 1 else 0
+                                        sb.append("+91")
+                                        while(i<phoneParts.size){
+                                            sb.append(phoneParts[i])
+                                            i += 1
+                                        }
+                                        contacts.add(sb.toString())
+                                    }
+                                }
+                                phoneCursor?.close()
+                            }
+                        }
+                    }
+                }
+                cursor?.close()
+            }
+        }
+        getFromContact(contacts)
+    }
+
+    private fun getFromContact(contacts: HashSet<String>) {
         database.reference.child("users").addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
+                usersInContact.clear()
                 usersNameDataBase.clear()
                 usersPhoneDataBase.clear()
                 snapshot.children.forEach {
                     val user = it.getValue(User::class.java)
                     if (user != null) {
-                        if (user.uid != auth.uid) {
-                            usersPhoneDataBase[user.phoneNumber] = user
+                        usersPhoneDataBase[user.phoneNumber] = user
+                        if(contacts.contains(user.phoneNumber)) {
+                            usersInContact.add(user)
                             usersNameDataBase[user.name.lowercase()] = user
                         }
                     }
                 }
+                searchListAdapter.submitList(usersInContact)
+                searchListAdapter.notifyDataSetChanged()
+
+
                 binding.loading.visibility = View.INVISIBLE
                 binding.searchRecyclerView.visibility = View.VISIBLE
             }
 
             override fun onCancelled(error: DatabaseError) {
-
+                binding.loading.visibility = View.INVISIBLE
+                binding.searchRecyclerView.visibility = View.VISIBLE
+                if (context != null) Toast.makeText(context, "Failed to load", Toast.LENGTH_SHORT)
+                    .show()
             }
-
         })
-    }
 
+    }
 }

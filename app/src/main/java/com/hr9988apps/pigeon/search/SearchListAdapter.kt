@@ -37,6 +37,8 @@ class SearchListViewHolder private constructor(private val binding: SearchListIt
 
         if (!item.profileImage.isNullOrEmpty()) {
             Picasso.get().load(item.profileImage).placeholder(R.drawable.user_icon)
+                .fit()
+                .centerInside()
                 .into(binding.profilePic)
         }
     }

@@ -49,6 +49,8 @@ class ChatListViewHolder private constructor(val binding: ChatListItemBinding) :
 
         if (!item.profileImage.isNullOrEmpty()) {
             Picasso.get().load(item.profileImage).placeholder(R.drawable.user_icon)
+                .fit()
+                .centerInside()
                 .into(binding.profilePic)
         }
 
