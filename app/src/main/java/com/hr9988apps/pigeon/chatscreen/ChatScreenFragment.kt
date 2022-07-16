@@ -95,6 +95,7 @@ class ChatScreenFragment : Fragment() {
         viewModel = ViewModelProvider(this)[ChatScreenViewModel::class.java]
 
         messagesAdapter = MessagesAdapter()
+
         binding.messageRecyclerView.adapter = messagesAdapter
 
         args = ChatScreenFragmentArgs.fromBundle(requireArguments())

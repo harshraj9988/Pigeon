@@ -78,7 +78,7 @@
             android:layout_height="0dp"
             android:orientation="vertical"
             android:padding="5dp"
-            android:visibility="invisible"
+            android:visibility="gone"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -89,6 +89,10 @@
 
         <ProgressBar
             android:id="@+id/loading"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/search"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
@@ -96,11 +100,7 @@
             android:indeterminate="true"
             android:indeterminateDrawable="@drawable/progress_bg"
             android:progress="0"
-            android:visibility="visible"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/search" />
+            android:visibility="visible" />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView2"

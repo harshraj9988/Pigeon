@@ -96,6 +96,8 @@ class ChatListFragment : Fragment() {
             }
         ))
 
+
+
         binding.recyclerView.adapter = chatListAdapter
 
 
