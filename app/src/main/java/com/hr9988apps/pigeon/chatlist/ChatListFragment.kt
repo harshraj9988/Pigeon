@@ -70,7 +70,7 @@ class ChatListFragment : Fragment() {
 
         viewModel = ViewModelProvider(this)[ChatListViewModel::class.java]
 
-        chatListAdapter = ChatListAdapter(authUid , ChatListListener(
+        chatListAdapter = ChatListAdapter(binding.showImage, binding.image, binding.closeImage, authUid , ChatListListener(
             clickListener = { name, profileImage, uid , token->
 
                 authUid?.let {

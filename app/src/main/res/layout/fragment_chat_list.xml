@@ -107,5 +107,32 @@
             android:textSize="20sp"
             android:visibility="invisible" />
 
+        <androidx.cardview.widget.CardView
+            android:id="@+id/showImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="gone"
+            app:cardCornerRadius="40dp">
+
+            <ImageView
+                android:id="@+id/image"
+                android:layout_width="350dp"
+                android:layout_height="500dp"
+                android:src="@drawable/user_icon"
+                android:scaleType="centerCrop"
+                android:contentDescription="Image" />
+
+            <ImageButton
+                android:id="@+id/closeImage"
+                android:layout_marginStart="10dp"
+                android:background="@android:color/transparent"
+                android:layout_marginTop="15dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/back_icon"
+                />
+        </androidx.cardview.widget.CardView>
+
     </RelativeLayout>
 </layout>

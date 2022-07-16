@@ -1,8 +1,16 @@
 package com.hr9988apps.pigeon.chatlist
 
+import android.app.Activity
+import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
+import android.widget.ImageView
+import androidx.appcompat.app.AlertDialog
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -14,10 +22,16 @@ import com.hr9988apps.pigeon.R
 import com.hr9988apps.pigeon.databinding.ChatListItemBinding
 import com.hr9988apps.pigeon.user.User
 import com.squareup.picasso.Picasso
+import com.squareup.picasso.Target
+import java.io.File
+import java.lang.Exception
 
 private val database: FirebaseDatabase = FirebaseDatabase.getInstance()
 
 class ChatListAdapter(
+    private val cardView: CardView,
+    private val imageView: ImageView,
+    private val imageButton: ImageButton,
     private val authUid: String?,
     private val clickListener: ChatListListener
 ) :
@@ -30,7 +44,7 @@ class ChatListAdapter(
 
     override fun onBindViewHolder(holder: ChatListViewHolder, position: Int) {
         val user = getItem(position)
-        holder.bind(clickListener, user, authUid)
+        holder.bind(cardView, imageView, imageButton, clickListener, user, authUid)
     }
 
 }
@@ -39,19 +53,44 @@ class ChatListViewHolder private constructor(val binding: ChatListItemBinding) :
     RecyclerView.ViewHolder(binding.root) {
 
     fun bind(
+        cardView: CardView,
+        imageView: ImageView,
+        imageButton: ImageButton,
         clickListener: ChatListListener,
         item: User,
-        authUid: String?
+        authUid: String?,
+
     ) {
         binding.user = item
         binding.clickListener = clickListener
         binding.name.text = item.name
 
         if (!item.profileImage.isNullOrEmpty()) {
+
+            Picasso.get().load(item.profileImage).placeholder(R.drawable.user_icon).fit().centerInside().into(binding.profilePic)
+
             Picasso.get().load(item.profileImage).placeholder(R.drawable.user_icon)
-                .fit()
-                .centerInside()
-                .into(binding.profilePic)
+                .into(object : Target {
+                    override fun onBitmapLoaded(bitmap: Bitmap?, from: Picasso.LoadedFrom?) {
+                        if(bitmap!=null){
+                            binding.profilePic.setOnClickListener {
+                                imageButton.setOnClickListener {
+                                    cardView.visibility = View.GONE
+                                }
+                                imageView.setImageBitmap(bitmap)
+                                cardView.visibility = View.VISIBLE
+                                cardView.cardElevation = 20f
+                            }
+                        }
+                    }
+
+                    override fun onBitmapFailed(e: Exception?, errorDrawable: Drawable?) {
+                    }
+
+                    override fun onPrepareLoad(placeHolderDrawable: Drawable?) {
+                    }
+
+                })
         }
 
         if (!authUid.isNullOrEmpty() && !item.uid.isNullOrEmpty()) {

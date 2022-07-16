@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -12,6 +14,7 @@ import android.os.Vibrator
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
@@ -35,6 +38,7 @@ import com.hr9988apps.pigeon.databinding.FragmentChatScreenBinding
 import com.hr9988apps.pigeon.user.User
 import com.hr9988apps.pigeon.ytfiles.YtActivity
 import com.squareup.picasso.Picasso
+import com.squareup.picasso.Target
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -127,9 +131,35 @@ class ChatScreenFragment : Fragment() {
         showOnlineStatus()
         checkReceiverActiveSession()
 
+
         if (receiverUserProfileImage.isNotEmpty()) {
-            Picasso.get().load(receiverUserProfileImage).placeholder(R.drawable.user_icon)
-                .into(binding.receiverProfilePic)
+            Picasso.get().load(receiverUserProfileImage).placeholder(R.drawable.user_icon).into(
+                object : Target {
+                    override fun onBitmapLoaded(bitmap: Bitmap?, from: Picasso.LoadedFrom?) {
+                        if (bitmap != null) {
+                            binding.receiverProfilePic.setImageBitmap(bitmap)
+                            binding.image.setImageBitmap(bitmap)
+                        }
+                    }
+
+                    override fun onBitmapFailed(e: java.lang.Exception?, errorDrawable: Drawable?) {
+
+                    }
+
+                    override fun onPrepareLoad(placeHolderDrawable: Drawable?) {
+
+                    }
+
+                })
+
+        }
+
+        binding.closeImage.setOnClickListener {
+            binding.showImage.visibility = View.GONE
+        }
+
+        binding.receiverProfilePic.setOnClickListener {
+            binding.showImage.visibility = View.VISIBLE
         }
 
         binding.backBtn.setOnClickListener { view_ ->
@@ -424,7 +454,7 @@ class ChatScreenFragment : Fragment() {
                             val map: HashMap<String, String> = HashMap()
 
 
-                        /********** get the FCM api key from the firebase *********************/
+                            /********** get the FCM api key from the firebase *********************/
                             val ai: ApplicationInfo = context!!.packageManager.getApplicationInfo(
                                 context!!.packageName,
                                 PackageManager.GET_META_DATA
