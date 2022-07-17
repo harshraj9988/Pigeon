@@ -7,7 +7,7 @@ An android app that lets users to chat and enjoy media content together with eac
 <a href="https://play.google.com/store/apps/details?id=com.hr9988apps.pigeon"><img src="https://github.com/harshraj9988/github-storage/blob/main/images/google_play.svg" height="75"></a>
 
 # About
-- How many times have you wished that if you could watch videos together with you long distant friend?
+- How many times have you wished that if you could watch videos together with your long distant friends?
   <br><br>
   - Now, with Pigeon, you can do the same.
   
