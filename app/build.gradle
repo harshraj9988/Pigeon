@@ -13,7 +13,7 @@ android {
 
     defaultConfig {
         applicationId "com.hr9988apps.pigeon"
-        minSdk 21
+        minSdk 23
         targetSdk 33
         versionCode 9
         versionName "2.0"
@@ -26,7 +26,7 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -78,6 +78,9 @@ dependencies {
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_ui_version"
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_ui_version"
     debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_ui_version"
+
+    //accompanist - to change system ui
+    implementation "com.google.accompanist:accompanist-systemuicontroller:0.28.0"
 
     //navigation graph
     implementation 'androidx.navigation:navigation-fragment-ktx:2.5.3'
