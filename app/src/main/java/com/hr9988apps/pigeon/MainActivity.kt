@@ -3,15 +3,17 @@ package com.hr9988apps.pigeon
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.ui.Modifier
 import androidx.core.view.WindowCompat
-import com.hr9988apps.pigeon.screens.MainChatListComposable
+import com.hr9988apps.pigeon.composed.screens.MainChatListComposable
 import com.hr9988apps.pigeon.ui.theme.Pigeon
 import com.hr9988apps.pigeon.ui.theme.appBackground
+import com.hr9988apps.pigeon.composed.view_model.ChatListViewModel
 
 /****************** Download your google-services.json from the firebase **************************/
 
@@ -69,11 +71,12 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             Pigeon {
+                val viewModel: ChatListViewModel by viewModels()
                 Column(
                     modifier = Modifier.fillMaxSize()
                         .background(appBackground).systemBarsPadding()
-                ){
-                    MainChatListComposable()
+                ) {
+                    MainChatListComposable(viewModel)
                 }
             }
         }

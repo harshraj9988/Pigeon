@@ -32,7 +32,6 @@ class SetupUserProfileFragment : Fragment() {
     private lateinit var storage: FirebaseStorage
     private var selectedImage: Uri? = null
 
-    private lateinit var viewModel: SetupUserProfileViewModel
 
     private lateinit var authUid: String
 
@@ -60,7 +59,6 @@ class SetupUserProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(this)[SetupUserProfileViewModel::class.java]
 
         val args = SetupUserProfileFragmentArgs.fromBundle(requireArguments())
         isComingFromOtpScreen = args.isComingFromOtpScreen

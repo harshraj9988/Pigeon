@@ -1,0 +1,5 @@
+package com.hr9988apps.pigeon.utils
+
+const val YT_KEY = "AIzaSyB-GjLIFo9FG7rW47DkfHjdQJ0pBGbErsk"
+
+const val FCM_KEY = "Key=AAAAI7mzpJQ:APA91bHpGlk1Ykt9Bd0s9WX98DsCjlzYhkf7fCudHDQ9wuiN43wVhk4i8vNOo-07rKd3QUpGjdavVfcWRSE1Oj4GIfLoKRd6qQmvvT_JOd8D4WyZBERdVkGrw_JksCYkBOwH3f5lJlCu"

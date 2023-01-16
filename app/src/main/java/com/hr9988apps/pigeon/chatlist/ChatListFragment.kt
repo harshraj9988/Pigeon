@@ -9,7 +9,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -20,10 +19,6 @@ import com.google.firebase.messaging.FirebaseMessaging
 import com.hr9988apps.pigeon.R
 import com.hr9988apps.pigeon.databinding.FragmentChatListBinding
 import com.hr9988apps.pigeon.user.User
-import java.util.*
-import kotlin.collections.ArrayList
-import kotlin.collections.HashMap
-import kotlin.collections.HashSet
 
 class ChatListFragment : Fragment() {
 
@@ -40,7 +35,6 @@ class ChatListFragment : Fragment() {
 
     /*************************************************************************************************/
 
-    private lateinit var viewModel: ChatListViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -68,7 +62,6 @@ class ChatListFragment : Fragment() {
             }
         }
 
-        viewModel = ViewModelProvider(this)[ChatListViewModel::class.java]
 
         chatListAdapter = ChatListAdapter(authUid , ChatListListener(
             clickListener = { name, profileImage, uid , token->
