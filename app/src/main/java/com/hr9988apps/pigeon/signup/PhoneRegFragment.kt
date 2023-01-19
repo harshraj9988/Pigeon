@@ -23,7 +23,6 @@ class PhoneRegFragment : Fragment() {
     private lateinit var phoneNumber: String
 
 /*************************************************************************************************/
-    private lateinit var viewModel: PhoneRegViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,7 +34,6 @@ class PhoneRegFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(this)[PhoneRegViewModel::class.java]
 
         // checking if the device has a network connection or not
         connectionLiveData = ConnectionLiveData(requireContext())

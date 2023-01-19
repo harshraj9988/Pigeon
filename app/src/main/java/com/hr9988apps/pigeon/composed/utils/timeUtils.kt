@@ -4,7 +4,7 @@ import android.util.Log
 import java.text.SimpleDateFormat
 import java.util.*
 
-fun getTime(time: Long, format: String = "mm:ss") : String {
+fun getTime(time: Long, format: String = "hh:mm") : String {
     return try{
         val date = Date(time)
         val formatter = SimpleDateFormat(format, Locale.getDefault())

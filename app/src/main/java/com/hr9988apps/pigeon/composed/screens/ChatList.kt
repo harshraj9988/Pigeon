@@ -29,13 +29,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.hr9988apps.pigeon.R
 import com.hr9988apps.pigeon.composed.utils.DEFAULT_USER_IMAGE
+import com.hr9988apps.pigeon.composed.utils.getTime
 import com.hr9988apps.pigeon.composed.utils.loadPicture
 import com.hr9988apps.pigeon.composed.view_model.ChatListViewModel
 import com.hr9988apps.pigeon.ui.theme.*
 
 @Composable
 fun MainChatListComposable(viewModel: ChatListViewModel) {
-    val users = viewModel.user.collectAsState()
+    viewModel.fetchData()
+
+    val contacts = viewModel.contact.collectAsState()
     Column {
 
         CustomTopBarComposable(viewModel)
@@ -49,13 +52,12 @@ fun MainChatListComposable(viewModel: ChatListViewModel) {
                 .fillMaxHeight(),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            items(users.value) {
-
+            items(contacts.value) {
                 CustomListItem(
                     it.name,
-                    it.phoneNumber,
-                    "12:00",
-                    23L,
+                    it.lastMessage,
+                    getTime(it.lastMessageTime),
+                    it.unseenCount,
                     imageUrl = it.profileImage,
                 ) {
                     //TODO: go to chat room
@@ -72,17 +74,17 @@ fun MainChatListComposable(viewModel: ChatListViewModel) {
 
 @Composable
 private fun CustomTopBarComposable(viewModel: ChatListViewModel) {
-
     val title: String = "Chats"
     val titleSize: Int = 28
 
-    val profilePicUrl : String? = null
     val profilePicSize: Int = 42
     val imageFunction = fun(){}
 
     val buttonFunction = viewModel::resetContact
 
     val appBarHeight: Int = 84
+
+    val author = viewModel.author.collectAsState()
 
     Row(
         modifier = Modifier.fillMaxWidth()
@@ -97,7 +99,7 @@ private fun CustomTopBarComposable(viewModel: ChatListViewModel) {
             Spacer(modifier = Modifier.width(20.dp))
 
             // User's own profile image
-            AvatarComposable(size = profilePicSize, imageUrl = profilePicUrl, onClick = imageFunction)
+            AvatarComposable(size = profilePicSize, imageUrl = author.value?.profileImage, onClick = imageFunction)
             Spacer(modifier = Modifier.width(18.dp))
             Text(
                 text = title,
@@ -310,7 +312,7 @@ private fun UnseenCountComposable(unseenCount: Long) {
 
             // List item user's messages unseen count
             Text(
-                text = unseenCount.toString(),
+                text = if(unseenCount < 100) unseenCount.toString() else "99+",
                 color = Color.White,
                 fontSize = 10.sp,
                 modifier = Modifier

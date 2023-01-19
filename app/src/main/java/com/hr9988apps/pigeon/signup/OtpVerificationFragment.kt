@@ -38,7 +38,6 @@ class OtpVerificationFragment : Fragment() {
     private lateinit var args: OtpVerificationFragmentArgs
 
     /**************************************************************************************************/
-    private lateinit var viewModel: OtpVerificationViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,7 +50,6 @@ class OtpVerificationFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(this)[OtpVerificationViewModel::class.java]
 
         // checking if the device has a network connection or not
         connectionLiveData = ConnectionLiveData(requireContext())

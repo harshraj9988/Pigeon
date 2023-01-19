@@ -22,5 +22,6 @@
     <color name="icon_color">#66000000</color>
     <color name="offline_indicator">#C12121</color>
     <color name="online_indicator">#057509</color>
+    <color name="testing">#008451</color>
 
 </resources>
