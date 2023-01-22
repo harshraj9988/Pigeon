@@ -15,8 +15,8 @@ android {
         applicationId "com.hr9988apps.pigeon"
         minSdk 21
         targetSdk 32
-        versionCode 8
-        versionName "1.014"
+        versionCode 9
+        versionName "1.015"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
