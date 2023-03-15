@@ -314,7 +314,9 @@ class YtActivity : YouTubeBaseActivity(), YouTubePlayer.OnInitializedListener,
                 })
     }
 
+    private var currSync: String? = null
     private fun playbackSync(value: String) {
+        currSync = value
         database.reference.child("chats")
             .child(receiverRoom).child("ytSync").setValue(value)
     }
@@ -327,6 +329,7 @@ class YtActivity : YouTubeBaseActivity(), YouTubePlayer.OnInitializedListener,
                         val timeString = snapshot.getValue(String::class.java)
                         if (!timeString.isNullOrEmpty()) {
                             val seek = timeString.toInt()
+                            if(currSync == null || currSync != timeString)
                             player?.seekToMillis(seek)
                         }
                     }
