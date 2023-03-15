@@ -6,12 +6,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.hr9988apps.pigeon.R
 import com.hr9988apps.pigeon.databinding.ItemReceiveBinding
 import com.hr9988apps.pigeon.databinding.ItemSentBinding
-import com.squareup.picasso.Picasso
-import kotlinx.coroutines.NonDisposableHandle.parent
 
 const val ITEM_SENT = 1
 const val ITEM_RECEIVE = 2
@@ -58,10 +57,8 @@ class SentViewHolder private constructor(val binding: ItemSentBinding) :
         binding.sent.text = item.message
         if (item.message == "photo") {
             binding.sentImage.visibility = View.VISIBLE
-            Picasso.get().load(item.imageUrl).placeholder(R.drawable.progress_bg_3)
-                .fit()
-                .centerInside()
-                .into(binding.sentImage)
+            Glide.with(binding.sentImage).asDrawable().load(item.imageUrl)
+                .placeholder(R.drawable.progress_bg_3).centerInside().into(binding.sentImage)
         } else {
             binding.sentImage.visibility = View.GONE
         }
@@ -84,10 +81,8 @@ class ReceiveViewHolder private constructor(val binding: ItemReceiveBinding) :
     ) {
         binding.receive.text = item.message
         if (item.message == "photo") {
-            Picasso.get().load(item.imageUrl).placeholder(R.drawable.progress_bg_3)
-                .fit()
-                .centerInside()
-                .into(binding.receivedImage)
+            Glide.with(binding.receivedImage).asDrawable().load(item.imageUrl)
+                .placeholder(R.drawable.progress_bg_3).centerInside().into(binding.receivedImage)
             binding.receivedImage.visibility = View.VISIBLE
         } else {
             binding.receivedImage.visibility = View.GONE

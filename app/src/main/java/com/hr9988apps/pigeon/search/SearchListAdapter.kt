@@ -5,10 +5,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.hr9988apps.pigeon.R
 import com.hr9988apps.pigeon.databinding.SearchListItemBinding
 import com.hr9988apps.pigeon.user.User
-import com.squareup.picasso.Picasso
 
 class SearchListAdapter(private val clickListener: SearchListListener) :
     ListAdapter<User, SearchListViewHolder>(SearchDiffCallback()) {
@@ -36,10 +36,8 @@ class SearchListViewHolder private constructor(private val binding: SearchListIt
         binding.name.text = item.name
 
         if (!item.profileImage.isNullOrEmpty()) {
-            Picasso.get().load(item.profileImage).placeholder(R.drawable.user_icon)
-                .fit()
-                .centerInside()
-                .into(binding.profilePic)
+            Glide.with(binding.profilePic).asDrawable().load(item.profileImage)
+                .placeholder(R.drawable.user_icon).centerInside().into(binding.profilePic)
         }
     }
 
