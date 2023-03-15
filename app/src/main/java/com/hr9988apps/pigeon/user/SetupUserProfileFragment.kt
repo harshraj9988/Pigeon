@@ -10,6 +10,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
+import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -20,7 +21,6 @@ import com.google.firebase.storage.StorageReference
 import com.hr9988apps.pigeon.R
 import com.hr9988apps.pigeon.databinding.FragmentSetupUserProfileBinding
 import com.hr9988apps.pigeon.utils.ConnectionLiveData
-import com.squareup.picasso.Picasso
 
 class SetupUserProfileFragment : Fragment() {
     /********************************** Global Variables **********************************************/
@@ -190,7 +190,7 @@ class SetupUserProfileFragment : Fragment() {
                             userProfileImage = user.profileImage
                             binding.nameBox.setText(user.name)
                             if(!user.profileImage.isNullOrEmpty()){
-                                Picasso.get().load(user.profileImage)
+                                Glide.with(binding.userProfilePic).asDrawable().load(user.profileImage)
                                     .placeholder(R.drawable.user_icon)
                                     .into(binding.userProfilePic)
                             }

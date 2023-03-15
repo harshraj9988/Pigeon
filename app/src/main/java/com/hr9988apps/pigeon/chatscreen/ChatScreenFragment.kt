@@ -13,6 +13,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -23,6 +24,7 @@ import com.android.volley.RequestQueue
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
+import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -34,7 +36,6 @@ import com.hr9988apps.pigeon.R
 import com.hr9988apps.pigeon.databinding.FragmentChatScreenBinding
 import com.hr9988apps.pigeon.user.User
 import com.hr9988apps.pigeon.ytfiles.YtActivity
-import com.squareup.picasso.Picasso
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -128,8 +129,7 @@ class ChatScreenFragment : Fragment() {
         checkReceiverActiveSession()
 
         if (receiverUserProfileImage.isNotEmpty()) {
-            Picasso.get().load(receiverUserProfileImage).placeholder(R.drawable.user_icon)
-                .into(binding.receiverProfilePic)
+            Glide.with(requireView()).asDrawable().placeholder(R.drawable.user_icon).load(receiverUserProfileImage).into(binding.receiverProfilePic)
         }
 
         binding.backBtn.setOnClickListener { view_ ->
@@ -310,6 +310,7 @@ class ChatScreenFragment : Fragment() {
             .child(senderRoom)
             .child("messages")
             .addValueEventListener(object : ValueEventListener {
+                @RequiresApi(Build.VERSION_CODES.Q)
                 override fun onDataChange(snapshot: DataSnapshot) {
                     messages.clear()
                     snapshot.children.forEach {
@@ -473,6 +474,7 @@ class ChatScreenFragment : Fragment() {
 
     }
 
+    @RequiresApi(Build.VERSION_CODES.Q)
     private fun vibrateOnMessageReceive() {
 
         if (vibrator != null) {
