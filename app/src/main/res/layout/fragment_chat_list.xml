@@ -107,5 +107,35 @@
             android:textSize="20sp"
             android:visibility="invisible" />
 
+        <RelativeLayout
+            android:id="@+id/profile_window"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/translucent_background"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/profile_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitCenter"
+                android:layout_marginTop="?attr/actionBarSize"
+                 />
+
+            <ImageButton
+                android:id="@+id/profile_btn"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/cross"
+                android:scaleType="fitXY"
+                android:background="@drawable/translucent_background"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="65dp"
+                android:layout_marginEnd="16dp"/>
+        </RelativeLayout>
+
     </RelativeLayout>
+
+
 </layout>

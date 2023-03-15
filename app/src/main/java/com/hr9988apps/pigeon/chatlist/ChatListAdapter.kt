@@ -1,25 +1,32 @@
 package com.hr9988apps.pigeon.chatlist
 
+import android.graphics.drawable.Drawable
+import android.media.Image
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.RelativeLayout
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.transition.Transition
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
 import com.hr9988apps.pigeon.R
 import com.hr9988apps.pigeon.databinding.ChatListItemBinding
 import com.hr9988apps.pigeon.user.User
-import com.squareup.picasso.Picasso
+import com.hr9988apps.pigeon.util_functions.ChatListHelperFunctions
 
 private val database: FirebaseDatabase = FirebaseDatabase.getInstance()
 
 class ChatListAdapter(
     private val authUid: String?,
-    private val clickListener: ChatListListener
+    private val clickListener: ChatListListener,
+    private val chatListHelperFunctions: ChatListHelperFunctions,
+    private val profileWindow: RelativeLayout,
+    private val profileImage: ImageView
 ) :
     ListAdapter<User, ChatListViewHolder>(UserDiffCallback()) {
 
@@ -30,7 +37,7 @@ class ChatListAdapter(
 
     override fun onBindViewHolder(holder: ChatListViewHolder, position: Int) {
         val user = getItem(position)
-        holder.bind(clickListener, user, authUid)
+        holder.bind(clickListener, user, authUid, chatListHelperFunctions, profileWindow, profileImage)
     }
 
 }
@@ -41,75 +48,63 @@ class ChatListViewHolder private constructor(val binding: ChatListItemBinding) :
     fun bind(
         clickListener: ChatListListener,
         item: User,
-        authUid: String?
+        authUid: String?,
+        chatListHelperFunctions: ChatListHelperFunctions,
+        profileWindow: RelativeLayout,
+        profileImage: ImageView
     ) {
+
+
+
         binding.user = item
         binding.clickListener = clickListener
         binding.name.text = item.name
 
+        var drawable : Drawable? = null
+
         if (!item.profileImage.isNullOrEmpty()) {
-            Picasso.get().load(item.profileImage).placeholder(R.drawable.user_icon)
-                .fit()
-                .centerInside()
-                .into(binding.profilePic)
+            Glide.with(profileImage).asDrawable().placeholder(R.drawable.progress_bg).load(item.profileImage).into(object : CustomTarget<Drawable>() {
+                override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
+                    drawable = resource
+                    binding.profilePic.setImageDrawable(drawable)
+                }
+                override fun onLoadCleared(placeholder: Drawable?) {
+                    drawable = placeholder
+                }
+            })
+
         }
+
+        binding.profilePic.setOnClickListener {
+            profileImage.setImageDrawable(drawable)
+            profileWindow.visibility = View.VISIBLE
+        }
+
+
 
         if (!authUid.isNullOrEmpty() && !item.uid.isNullOrEmpty()) {
             //getting the last message
-            database.reference.child("lastMessages").child(authUid)
-                .child(item.uid).child("lastMsg").addValueEventListener(
-                    object : ValueEventListener {
-                        override fun onDataChange(snapshot: DataSnapshot) {
-                            if (snapshot.exists()) {
-                                val lastMessage = snapshot.getValue(String::class.java)
-                                if (!lastMessage.isNullOrEmpty()) {
-                                    binding.lastMessage.text = lastMessage
-                                    binding.unreadLastMessage.text = lastMessage
+            chatListHelperFunctions.getLastMessage(
+                database,
+                authUid,
+                item,
+                binding.lastMessage,
+                binding.unreadLastMessage
+            )
 
-                                    //checking if there's an unseen message
-                                    database.reference.child("unseenCount").child(authUid)
-                                        .child(item.uid).child("count")
-                                        .addValueEventListener(object :
-                                            ValueEventListener {
-                                            override fun onDataChange(snapshot: DataSnapshot) {
-                                                if (snapshot.exists()) {
-                                                    val unseen =
-                                                        snapshot.getValue(String::class.java)
-                                                    if (!unseen.isNullOrEmpty()) {
-                                                        if (unseen == "0") {
-                                                            binding.lastMessage.visibility =
-                                                                View.VISIBLE
-                                                            binding.unreadLastMessage.visibility =
-                                                                View.GONE
-                                                            binding.unseenMessageCount.visibility =
-                                                                View.INVISIBLE
-                                                        } else {
-                                                            binding.unreadLastMessage.visibility =
-                                                                View.VISIBLE
-                                                            binding.lastMessage.visibility =
-                                                                View.GONE
-                                                            binding.unseenMessageCount.visibility =
-                                                                View.VISIBLE
-                                                        }
-                                                    }
-                                                }
-                                            }
 
-                                            override fun onCancelled(error: DatabaseError) {
-                                            }
-                                        })
-
-                                }
-                            }
-                        }
-
-                        override fun onCancelled(error: DatabaseError) {
-
-                        }
-
-                    })
+            //checking if there's an unseen message
+            chatListHelperFunctions.checkUnseenCount(
+                database,
+                authUid,
+                item,
+                binding.lastMessage,
+                binding.unreadLastMessage,
+                binding.unseenMessageCount
+            )
         }
     }
+
 
     companion object {
         fun from(parent: ViewGroup): ChatListViewHolder {
@@ -134,7 +129,7 @@ class UserDiffCallback : DiffUtil.ItemCallback<User>() {
 
 class ChatListListener(
     val clickListener: (name: String, profileImage: String, uid: String, token: String?) -> Unit,
-    val longClickListener: (uid: String) -> Boolean
+    val longClickListener: (uid: String) -> Boolean,
 ) {
     fun onClick(user: User) = clickListener(user.name, user.profileImage, user.uid, user.token)
     fun onLongClick(user: User): Boolean = longClickListener(user.uid)
