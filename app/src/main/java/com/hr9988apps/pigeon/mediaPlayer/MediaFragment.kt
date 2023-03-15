@@ -367,7 +367,9 @@ class MediaFragment : Fragment() {
     }
 
 
+    private var currSync: String? = null
     private fun playbackSync(value: String) {
+        currSync = value
         database.reference.child("chats")
             .child(receiverRoom).child("sync").setValue(value)
     }
@@ -380,6 +382,7 @@ class MediaFragment : Fragment() {
                         val timeString = snapshot.getValue(String::class.java)
                         if (!timeString.isNullOrEmpty()) {
                             val seek = timeString.toLong()
+                            if(currSync == null || currSync != timeString)
                             player?.seekTo(seek)
                         }
                     }
